@@ -4,28 +4,38 @@ namespace Road_stats.Storage
 {
     public class Storage
     {
-        private readonly List<Record> _storage;
+        private readonly RoadStatsDbContext _context;
 
-        public List<Record> GetBySpeed(List<Record> recordList, int? speed)
+        public Storage(RoadStatsDbContext context)
         {
-            return recordList.Where(r => r.speed >= speed).ToList();
+            _context = context;
+        }
+        public List<RecordModel> GetBySpeed(int? speed)
+        {
+            return _context.Records.Where(r => r.Speed >= speed).ToList();
         }
 
-        public List<Record> GetFromDate(List<Record> recordList, string? date)
+        public List<RecordModel> GetFromDate(List<RecordModel> recordList, string? date)
         {
-            return recordList.Where(r => r.date.Date.CompareTo(date) >= 0).ToList();
+            return recordList.Where(r => r.Date.Date.CompareTo(date) >= 0).ToList();
         }
 
-        public List<Record> GetBeforeDate(List<Record> recordList, string? date)
+        public List<RecordModel> GetBeforeDate(List<RecordModel> recordList, string? date)
         {
-            return recordList.Where(r=> r.date.Date.CompareTo(date) <= 0).ToList();
+            return recordList.Where(r=> r.Date.Date.CompareTo(date) <= 0).ToList();
         }
 
-        public List<Record> FilterRecords(int? speed, string? fromDate, string? beforeDate)
+        public List<RecordModel> FilterRecords(int? speed, string? fromDate, string? beforeDate)
         {
-            var filteredRecordList = GetBySpeed(_storage, speed);
+            var filteredRecordList = GetBySpeed(speed);
             filteredRecordList = GetFromDate(filteredRecordList, fromDate);
             return GetBeforeDate(filteredRecordList, beforeDate);
+        }
+
+        public void AddRecords(List<RecordModel> records)
+        {
+            _context.Records.AddRange(records);
+            _context.SaveChanges();
         }
     }
 }

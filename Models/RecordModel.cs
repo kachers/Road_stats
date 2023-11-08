@@ -1,10 +1,12 @@
 ﻿
 namespace Road_stats.Models
 {
-    public class Record
+    public class RecordModel
     {
-        public string carId { get; }
-        public int speed { get; }
-        public DateTime date { get; }
+        public int Id { get; set; }
+        public string CarId { get; set; }
+        public int Speed { get; set; }
+        public DateTime Date { get; set; }
+
     }
 }

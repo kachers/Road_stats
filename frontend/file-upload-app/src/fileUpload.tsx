@@ -19,7 +19,7 @@ function FileUpload() {
     formData.append('file', file);
 
     try {
-      const response = await fetch('/your-upload-endpoint', {
+      const response = await fetch('user/upload', {
         method: 'POST',
         body: formData,
       });
