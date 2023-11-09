@@ -15,7 +15,13 @@ namespace Road_stats
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<RoadStatsDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("RoadStats")));
-
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("ReactAppPolicy",
+                    builder => builder.WithOrigins("http://localhost:3000") // Add your frontend URL
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -24,7 +30,7 @@ namespace Road_stats
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseCors("ReactAppPolicy");
             app.UseAuthorization();
 
 
