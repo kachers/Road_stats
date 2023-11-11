@@ -10,6 +10,12 @@ namespace Road_stats.Storage
         {
             _context = context;
         }
+
+        public List<RecordModel> GetStats()
+        {
+            return _context.Records.ToList();
+        }
+
         public List<RecordModel> GetBySpeed(int? speed)
         {
             return _context.Records.Where(r => r.Speed >= speed).ToList();

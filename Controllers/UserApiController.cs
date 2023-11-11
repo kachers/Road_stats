@@ -3,7 +3,7 @@ using Road_stats.Models;
 
 namespace Road_stats.Controllers
 {
-    [Route("user/upload")]
+    [Route("user")]
     [ApiController]
     public class UserApiController : ControllerBase
     {
@@ -14,7 +14,7 @@ namespace Road_stats.Controllers
         {
             _storage = storage;
         }
-
+        [Route("upload")]
         [HttpPost]
         public IActionResult UploadFile([FromForm] FileUploadModel model)
         {
@@ -65,5 +65,34 @@ namespace Road_stats.Controllers
             }
         }
 
+        [Route("stats")]
+        [HttpGet]
+        public IActionResult GetStats()
+        {
+            try
+            {
+                return Ok(_storage.GetStats());
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+
+        [Route("filter")]
+        [HttpGet]
+        public IActionResult FilterStats(int? speed, string? fromDate, string? beforeDate)
+        {
+            try
+            {
+                var result = _storage.FilterRecords(speed, fromDate, beforeDate);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
     }
 }
