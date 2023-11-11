@@ -81,11 +81,11 @@ namespace Road_stats.Controllers
 
         [Route("filter")]
         [HttpGet]
-        public IActionResult FilterStats(int? speed, string? fromDate, string? beforeDate)
+        public IActionResult FilterStats(int? speed, string? fromDate, string? toDate)
         {
             try
             {
-                var result = _storage.FilterRecords(speed, fromDate, beforeDate);
+                var result = _storage.FilterRecords(speed, fromDate, toDate);
 
                 return Ok(result);
             }
@@ -93,6 +93,15 @@ namespace Road_stats.Controllers
             {
                 return StatusCode(500, "Internal server error: " + ex.Message);
             }
+        }
+
+        [Route("clear")]
+        [HttpPost]
+        public IActionResult Clear()
+        {
+            _storage.Clear();
+
+            return Ok();
         }
     }
 }

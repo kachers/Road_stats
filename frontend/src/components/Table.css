@@ -1,0 +1,41 @@
+table {
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .button-container {
+    display: flex;
+    align-items: center;
+    margin-top: 10px; /* Adjust the margin as needed */
+  }
+  
+  th{
+    background-color: #807e7e;
+  }
+
+  th, td {
+    border: 1px solid black;
+    padding: 6px;
+    text-align:center;
+  }
+  
+  button {
+    margin: 8px;
+    cursor: pointer;
+  }
+
+  thead {
+    font-weight: bold;
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Add a background color to even rows */
+  }
