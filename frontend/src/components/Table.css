@@ -14,7 +14,7 @@ table {
   .button-container {
     display: flex;
     align-items: center;
-    margin-top: 10px; /* Adjust the margin as needed */
+    margin-top: 10px; 
   }
   
   th{
@@ -37,5 +37,5 @@ table {
   }
   
   tbody tr:nth-child(even) {
-    background-color: #f9f9f9; /* Add a background color to even rows */
+    background-color: #f9f9f9; 
   }

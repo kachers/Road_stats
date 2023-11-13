@@ -18,7 +18,7 @@
   .navbar-nav {
     list-style: none;
     display: flex;
-    margin-left: 10px; /* Adjusted left margin */
+    margin-left: 10px;
     margin-right: 50px;
   }
   

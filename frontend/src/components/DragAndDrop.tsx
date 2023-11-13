@@ -5,7 +5,6 @@ const DragAndDrop: React.FC = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [confirmationVisible, setConfirmationVisible] = useState(false);
 
-  // Define the event handlers
   const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setIsOver(true);
@@ -20,10 +19,8 @@ const DragAndDrop: React.FC = () => {
     event.preventDefault();
     setIsOver(false);
 
-    // Fetch the files
     const droppedFiles = Array.from(event.dataTransfer.files);
 
-    // Use FormData to prepare the file for upload
     const formData = new FormData();
     formData.append('file', droppedFiles[0]);
 
@@ -36,7 +33,6 @@ const DragAndDrop: React.FC = () => {
       if (response.ok) {
         console.log('File uploaded successfully');
         setConfirmationVisible(true);
-        // Handle your response from the backend here
       } else {
         console.error('File upload failed');
       }
@@ -63,8 +59,6 @@ const DragAndDrop: React.FC = () => {
       }}
     >
       Drag and drop your file here
-
-      {/* Confirmation message */}
       {confirmationVisible && (
         <div className="confirmation">
           <p>File uploaded successfully!</p>

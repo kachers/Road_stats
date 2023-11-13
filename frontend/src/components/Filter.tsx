@@ -1,47 +1,27 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import './Filter.css'; // Import the CSS file for styling
+import './Filter.css'; 
 
-const Filter: React.FC = () => {
+interface FilterProps {
+  onApplyFilter: (speed: number | null, fromDate: Date | null, toDate: Date | null) => void;
+  onResetFilter: () => void;
+}
+
+const Filter: React.FC<FilterProps> = ({ onApplyFilter, onResetFilter }) => {
   const [speed, setSpeed] = useState<number | null>(null);
   const [fromDate, setFromDate] = useState<Date | null>(null);
   const [toDate, setToDate] = useState<Date | null>(null);
 
   const handleApplyFilter = () => {
-    // Read values from filter inputs
-    const speedValue = speed !== null ? speed : undefined;
-    const fromDateValue = fromDate !== null ? fromDate.toISOString().split('T')[0] : undefined;
-    const toDateValue = toDate !== null ? toDate.toISOString().split('T')[0] : undefined;
-
-    // Log the URL
-    const filterURL = `http://localhost:8080/user/filter?speed=${speedValue}&fromDate=${fromDateValue}&toDate=${toDateValue}`;
-    console.log('Filter URL:', filterURL);
-
-    // Call the GET method FilterStats
-    fetch(filterURL)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('Failed to fetch data');
-        }
-      })
-      .then((data) => {
-        // Handle the data as needed
-        console.log('Filtered data:', data);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+    onApplyFilter(speed, fromDate, toDate);
   };
 
   const handleResetFilter = () => {
-    // Implement the logic to reset the filter
     setSpeed(null);
     setFromDate(null);
     setToDate(null);
-    console.log('Filter reset');
+    onResetFilter();
   };
 
   return (
@@ -58,12 +38,12 @@ const Filter: React.FC = () => {
 
         <div className="filter-label">
           <label>Date From:</label>
-          <DatePicker selected={fromDate} onChange={(date) => setFromDate(date)} />
+          <DatePicker selected={fromDate} onChange={(date) => setFromDate(date as Date)} />
         </div>
 
         <div className="filter-label">
           <label>Date To:</label>
-          <DatePicker selected={toDate} onChange={(date) => setToDate(date)} />
+          <DatePicker selected={toDate} onChange={(date) => setToDate(date as Date)} />
         </div>
 
         <div className="filter-buttons">

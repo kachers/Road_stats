@@ -28,7 +28,6 @@ const ChooseFile: React.FC = () => {
       if (response.ok) {
         console.log('File uploaded successfully');
         setConfirmationVisible(true);
-        // Handle your response from the backend here
       } else {
         console.error('File upload failed');
       }
@@ -42,7 +41,6 @@ const ChooseFile: React.FC = () => {
       <input type="file" onChange={handleFileChange} />
       <button onClick={handleUpload}>Upload</button>
 
-      {/* Confirmation message */}
       {confirmationVisible && (
         <div className="confirmation">
           <p>File uploaded successfully!</p>
