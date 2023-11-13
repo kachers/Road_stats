@@ -1,0 +1,38 @@
+.navbar {
+    background-color: #333;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .navbar-brand {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.5rem;
+  }
+  .navbar-brand:hover{
+    color: #ffc107;
+  }
+  
+  .navbar-nav {
+    list-style: none;
+    display: flex;
+    margin-left: 10px;
+    margin-right: 50px;
+  }
+  
+  .nav-item {
+    margin-right: 10px;
+  }
+  
+  .nav-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s; /* Added smooth color transition */
+  }
+  
+  .nav-link:hover {
+    color: #ffc107; /* Light up color on hover */
+  }

@@ -4,28 +4,61 @@ namespace Road_stats.Storage
 {
     public class Storage
     {
-        private readonly List<Record> _storage;
+        private readonly RoadStatsDbContext _context;
 
-        public List<Record> GetBySpeed(List<Record> recordList, int? speed)
+        public Storage(RoadStatsDbContext context)
         {
-            return recordList.Where(r => r.speed >= speed).ToList();
+            _context = context;
         }
 
-        public List<Record> GetFromDate(List<Record> recordList, string? date)
+        public List<RecordModel> GetStats()
         {
-            return recordList.Where(r => r.date.Date.CompareTo(date) >= 0).ToList();
+            return _context.Records.ToList();
         }
 
-        public List<Record> GetBeforeDate(List<Record> recordList, string? date)
+        public List<RecordModel> GetBySpeed(int? speed)
         {
-            return recordList.Where(r=> r.date.Date.CompareTo(date) <= 0).ToList();
+            return _context.Records.Where(r => r.Speed >= speed).ToList();
         }
 
-        public List<Record> FilterRecords(int? speed, string? fromDate, string? beforeDate)
+        public List<RecordModel> GetFromDate(List<RecordModel> recordList, string? date)
         {
-            var filteredRecordList = GetBySpeed(_storage, speed);
+            var dateConverted = date.Split("-");
+            DateTime dateFrom = new DateTime(
+                int.Parse(dateConverted[0]), 
+                int.Parse(dateConverted[1]),
+                int.Parse(dateConverted[2]));
+
+            return recordList.Where(r => r.Date.Date.CompareTo(dateFrom) >= 0).ToList();
+        }
+
+        public List<RecordModel> GetToDate(List<RecordModel> recordList, string? date)
+        {
+            var dateConverted = date.Split("-");
+            DateTime dateTo = new DateTime(
+                int.Parse(dateConverted[0]),
+                int.Parse(dateConverted[1]),
+                int.Parse(dateConverted[2]));
+            return recordList.Where(r=> r.Date.Date.CompareTo(dateTo) <= 0).ToList();
+        }
+
+        public List<RecordModel> FilterRecords(int? speed, string? fromDate, string? toDate)
+        {
+            var filteredRecordList = GetBySpeed(speed);
             filteredRecordList = GetFromDate(filteredRecordList, fromDate);
-            return GetBeforeDate(filteredRecordList, beforeDate);
+            return GetToDate(filteredRecordList, toDate);
+        }
+
+        public void AddRecords(List<RecordModel> records)
+        {
+            _context.Records.AddRange(records);
+            _context.SaveChanges();
+        }
+
+        public void Clear()
+        {
+            _context.Records.RemoveRange(_context.Records);
+            _context.SaveChanges();
         }
     }
 }
