@@ -16,6 +16,38 @@ namespace Road_stats.Storage
             return _context.Records.ToList();
         }
 
+        public List<AverageSpeedByHour> CalculateHourlyAverageSpeed(string date)
+        {
+            var dateConverted = date.Split("-");
+            DateTime targetDate = new DateTime(
+                int.Parse(dateConverted[0]),
+                int.Parse(dateConverted[1]),
+                int.Parse(dateConverted[2]));
+
+            var filteredRecords = _context.Records.Where(record => record.Date.Date == targetDate.Date).ToList();
+
+            // Group records by hour
+            var recordsByHour = filteredRecords.GroupBy(record => record.Date.Hour);
+
+            // Calculate average speed for each hour
+            var hourlyAverageSpeeds = recordsByHour.Select(group =>
+                new AverageSpeedByHour
+                {
+                    Hour = group.Key,
+                    AverageSpeed = (int)Math.Round(group.Average(record => record.Speed))
+                }).ToList();
+
+            return hourlyAverageSpeeds;
+
+            /*var dateConverted = date.Split("-");
+            DateTime dateTimeDate = new DateTime(
+                int.Parse(dateConverted[0]),
+                int.Parse(dateConverted[1]),
+                int.Parse(dateConverted[2]));
+
+            return _context.Records.Where(r => r.Date.Date == dateTimeDate).ToList();*/
+        }
+
         public List<RecordModel> GetBySpeed(int? speed)
         {
             return _context.Records.Where(r => r.Speed >= speed).ToList();

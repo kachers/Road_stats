@@ -79,6 +79,20 @@ namespace Road_stats.Controllers
             }
         }
 
+        [Route("graph")]
+        [HttpGet]
+        public IActionResult GetStatsByDate(string date)
+        {
+            try
+            {
+                return Ok(_storage.CalculateHourlyAverageSpeed(date));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+        
         [Route("filter")]
         [HttpGet]
         public IActionResult FilterStats(int? speed, string? fromDate, string? toDate)
