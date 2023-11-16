@@ -21,4 +21,5 @@ npm-debug.log*
 *.sqlite
 *.sqlite3
 
+# Ignore obj folder
 obj/
